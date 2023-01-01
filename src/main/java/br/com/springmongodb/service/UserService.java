@@ -7,8 +7,10 @@ import br.com.springmongodb.service.exception.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class UserService {
@@ -33,7 +35,20 @@ public class UserService {
         return repo.insert(obj);
     }
 
+    public Iterable<User> insertAll(List<User> objs){
+        return repo.saveAll(objs);
+    }
+
+    public void delete(String id){
+        findById(id);
+        repo.deleteById(id);
+    }
+
     public User fromDTO(UserDTO objDTO){
         return new User(objDTO.getId(), objDTO.getName(), objDTO.getEmail());
+    }
+
+    public List<User> fromDTOList(List<UserDTO> objsDTO){
+        return objsDTO.stream().map(x -> new User(x.getId(), x.getName(), x.getEmail())).collect(Collectors.toList());
     }
 }
