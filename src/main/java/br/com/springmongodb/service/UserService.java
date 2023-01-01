@@ -1,6 +1,7 @@
 package br.com.springmongodb.service;
 
 import br.com.springmongodb.domain.User;
+import br.com.springmongodb.dto.UserDTO;
 import br.com.springmongodb.repository.UserRepository;
 import br.com.springmongodb.service.exception.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,5 +27,13 @@ public class UserService {
         } else {
             return user;
         }
+    }
+
+    public User insert(User obj){
+        return repo.insert(obj);
+    }
+
+    public User fromDTO(UserDTO objDTO){
+        return new User(objDTO.getId(), objDTO.getName(), objDTO.getEmail());
     }
 }
